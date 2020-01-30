@@ -1,4 +1,4 @@
-package com.example.chmarax.logregform;
+package com.example.CZ.LoginPhishing;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

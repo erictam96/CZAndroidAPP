@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chmarax.logregform">
+    package="com.example.CZ.LoginPhishing">
 
     <application
         android:allowBackup="true"
@@ -9,17 +9,17 @@
         android:roundIcon="@mipmap/logo_noshadow"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".SplashScrActivity">
+        <activity android:name="com.example.CZ.LoginPhishing.MainActivity" />
+        <activity android:name="com.example.CZ.LoginPhishing.RegistrationActivity" />
+        <activity android:name="com.example.CZ.LoginPhishing.SplashScrActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".PWresetActivity"></activity>
+        <activity android:name="com.example.CZ.LoginPhishing.LoginActivity" />
+        <activity android:name="com.example.CZ.LoginPhishing.PWresetActivity"></activity>
     </application>
 
 </manifest>
