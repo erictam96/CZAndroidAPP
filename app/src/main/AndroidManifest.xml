@@ -3,6 +3,8 @@
     package="com.example.CZ.LoginPhishing">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -11,18 +13,22 @@
         android:roundIcon="@mipmap/logo_noshadow"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".TrackingService"
+            android:enabled="true"
+            android:exported="true"></service>
 
-        <activity android:name="com.example.CZ.LoginPhishing.MainActivity" />
-        <activity android:name="com.example.CZ.LoginPhishing.RegistrationActivity" />
-        <activity android:name="com.example.CZ.LoginPhishing.SplashScrActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".SplashScrActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.CZ.LoginPhishing.LoginActivity" />
-        <activity android:name="com.example.CZ.LoginPhishing.PWresetActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".PWresetActivity" />
     </application>
 
 </manifest>
