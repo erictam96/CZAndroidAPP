@@ -69,7 +69,7 @@ public class TrackingService extends Service {
 
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         FusedLocationProviderClient client = LocationServices.getFusedLocationProviderClient(this);
-        final String path = firebaseAuth.getCurrentUser().getUid();
+        final String path = "Android/"+firebaseAuth.getCurrentUser().getUid()+"/GPS/";
         int permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
 

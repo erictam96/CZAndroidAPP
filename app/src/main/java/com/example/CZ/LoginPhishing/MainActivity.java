@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        btnLogout.setVisibility(View.GONE);
+        //btnLogout.setVisibility(View.GONE);
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.dialog_title)

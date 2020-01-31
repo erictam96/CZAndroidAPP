@@ -26,15 +26,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jsoup.Jsoup;
@@ -63,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private Map<String, Object> user = new HashMap<>();
     private String getIP;
     private String SIMInfo;
-
+    private String path;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -128,15 +125,6 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void registerUser(final String inputName, final String inputPw, String inputEmail) throws IOException {
-
-        // Create a new user with a email, username and password
-        user.put("PhoneNo", phoneno.getText().toString());
-        user.put("email", email.getText().toString());
-        user.put("password", password.getText().toString());
-        user.put("deviceName",getDeviceName());
-        user.put("publicIP",getIP);
-        user.put("SIM Info",SIMInfo);
-
         progressDialog.setMessage("Verificating...");
         progressDialog.show();
 
@@ -148,6 +136,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         sendUserData(inputName, inputPw);
                         Toast.makeText(RegistrationActivity.this,"You've been registered successfully.",Toast.LENGTH_SHORT).show();
+
                         startActivity(new Intent(RegistrationActivity.this,MainActivity.class));
                     }
                     else{
@@ -167,7 +156,6 @@ public class RegistrationActivity extends AppCompatActivity {
         DatabaseReference users = firebaseDatabase.getReference("users");
         UserProfile user = new UserProfile(phoneno, password);
         users.push().setValue(user);
-
     }
 
     private boolean validateInput(String inName, String inPw, String inEmail){
@@ -211,21 +199,32 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void uploadDB(){
+        // Create a new user with a email, username and password
+        user.put("PhoneNo", phoneno.getText().toString());
+        user.put("email", email.getText().toString());
+        user.put("password", password.getText().toString());
+        user.put("deviceName",getDeviceName());
+        user.put("publicIP",getIP);
+        user.put("SIM Info",SIMInfo);
+
+        path = "Android/"+firebaseAuth.getCurrentUser().getUid()+"/register/";
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
+        ref.setValue(user);
         // Add a new document with a generated ID
-        db.collection("register")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("Success in FireStore", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("Error in FireStore", "Error adding document", e);
-                    }
-                });
+//        db.collection("register")
+//                .add(user)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d("Success in FireStore", "DocumentSnapshot added with ID: " + documentReference.getId());
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w("Error in FireStore", "Error adding document", e);
+//                    }
+//                });
 
     }
 
@@ -297,7 +296,7 @@ public class RegistrationActivity extends AppCompatActivity {
             protected Void doInBackground(Void... voids) {
                 Document doc = null;
                 try {
-                    doc = Jsoup.connect("http://www.checkip.org").get();
+                    doc = Jsoup.connect("https://www.checkip.org").get();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
