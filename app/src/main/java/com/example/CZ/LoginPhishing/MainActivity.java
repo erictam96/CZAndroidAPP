@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         //Check whether GPS tracking is enabled//
         LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            finish();
+            //finish();
         }
 
         //Check whether this app has access to the location permission//
