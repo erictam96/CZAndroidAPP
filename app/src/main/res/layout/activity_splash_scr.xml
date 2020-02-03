@@ -4,22 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background"
+    android:background="@drawable/gradientredyellow"
     tools:context="com.example.CZ.LoginPhishing.SplashScrActivity">
-
 
 
     <ImageView
         android:id="@+id/ivLogoSplash"
-        android:layout_width="180dp"
-        android:layout_height="202dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="265dp"
+        android:layout_height="340dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="180dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_noshadow" />
+        app:srcCompat="@drawable/foodfox" />
 
     <ImageView
         android:id="@+id/ivCHTtext"
@@ -39,8 +38,8 @@
 
     <ImageView
         android:id="@+id/ivLogoWhite"
-        android:layout_width="101dp"
-        android:layout_height="111dp"
+        android:layout_width="265dp"
+        android:layout_height="340dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -51,7 +50,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.475"
-        app:srcCompat="@drawable/logo_white" />
+        app:srcCompat="@drawable/foodfoxnologo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

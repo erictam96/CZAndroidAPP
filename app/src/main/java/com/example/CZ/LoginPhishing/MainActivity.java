@@ -5,10 +5,14 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -21,10 +25,20 @@ public class MainActivity extends AppCompatActivity {
     private Button btnLogout;
     private FirebaseAuth firebaseAuth;
     private static final int PERMISSIONS_REQUEST = 100;
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        WebView myWebView = (WebView) findViewById(R.id.webview);
+        myWebView.loadUrl("https://funntaste.com/23-food-in-subang-jaya-try-in-2018/");
+        myWebView.getSettings().setDomStorageEnabled(true);
+        myWebView.getSettings().setAppCacheEnabled(true);
+        myWebView.getSettings().setLoadsImagesAutomatically(true);
+        myWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
         btnLogout = findViewById(R.id.btnLogout);
         firebaseAuth = FirebaseAuth.getInstance();

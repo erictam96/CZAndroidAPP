@@ -40,7 +40,7 @@ public class SplashScrActivity extends AppCompatActivity {
                 logoSplash.setVisibility(View.GONE);
 
                 logoWhite.startAnimation(anim3);
-                chmaraTech.startAnimation(anim3);
+                //chmaraTech.startAnimation(anim3);
                 anim3.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
@@ -50,7 +50,7 @@ public class SplashScrActivity extends AppCompatActivity {
                     @Override
                     public void onAnimationEnd(Animation animation) {
                         logoWhite.setVisibility(View.VISIBLE);
-                        chmaraTech.setVisibility(View.VISIBLE);
+                        //chmaraTech.setVisibility(View.VISIBLE);
 
                         finish();
                         startActivity(new Intent(SplashScrActivity.this,LoginActivity.class));

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background"
+    android:background="@drawable/gradientredyellow"
     tools:context="com.example.CZ.LoginPhishing.PWresetActivity">
 
 
@@ -27,15 +27,14 @@
             >
 
 
-
             <ImageView
                 android:id="@+id/ivLogLogo"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_marginBottom="55dp"
+                android:layout_height="229dp"
                 android:layout_marginTop="18dp"
+                android:layout_marginBottom="55dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/logo" />
+                android:src="@drawable/foodfox" />
 
 
             <ImageView

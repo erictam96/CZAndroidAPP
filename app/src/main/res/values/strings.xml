@@ -11,6 +11,7 @@
     <string name="dialog_message">Service is not available as the server is currently undergoing maintenance.Please wait.</string>
     <string name="dialog_title">Server Maintenance</string>
     <string name="firebase_path">GPS</string>
+    <string name="userfirstname">Name</string>
 
 
 </resources>

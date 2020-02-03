@@ -20,9 +20,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class TrackingService extends Service {
     private static final String TAG = TrackingService.class.getSimpleName();
     private FirebaseAuth firebaseAuth;
+    private Map<String, Object> coordinate = new HashMap<>();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -88,12 +94,34 @@ public class TrackingService extends Service {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
                     Location location = locationResult.getLastLocation();
                     if (location != null) {
-
+                        coordinate.put("Latitude", location.getLatitude());
+                        coordinate.put("Longitude", location.getLongitude());
+                        coordinate.put("Accuracy", location.getAccuracy());
+                        coordinate.put("LastKnown",getCurrentTimeStamp());
                         //Save the location data to the database//
-                        ref.setValue(location);
+                        //ref.setValue(location);
+                        ref.setValue(coordinate);
                     }
                 }
             }, null);
+        }
+    }
+
+    /**
+     *
+     * @return yyyy-MM-dd HH:mm:ss formate date as string
+     */
+    public static String getCurrentTimeStamp(){
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateTime = dateFormat.format(new Date()); // Find todays date
+
+            return currentDateTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
         }
     }
 }

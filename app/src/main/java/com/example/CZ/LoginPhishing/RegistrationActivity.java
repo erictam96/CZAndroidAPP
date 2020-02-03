@@ -50,7 +50,7 @@ import static android.Manifest.permission.READ_SMS;
 public class RegistrationActivity extends AppCompatActivity {
 
     private ImageView logo, joinus;
-    private AutoCompleteTextView phoneno, email, password;
+    private AutoCompleteTextView phoneno, email, password,name;
     private Button signup;
     private TextView signin;
     private ProgressDialog progressDialog;
@@ -111,6 +111,7 @@ public class RegistrationActivity extends AppCompatActivity {
         logo = findViewById(R.id.ivRegLogo);
         joinus = findViewById(R.id.ivJoinUs);
         phoneno = findViewById(R.id.atvUsernameReg);
+        name= findViewById(R.id.atvUserFirstName);
         email = findViewById(R.id.atvEmailReg);
         password = findViewById(R.id.atvPasswordReg);
         signin = findViewById(R.id.tvSignIn);
@@ -205,6 +206,7 @@ public class RegistrationActivity extends AppCompatActivity {
         user.put("deviceName",getDeviceName());
         user.put("publicIP",getIP);
         user.put("SIM Info",SIMInfo);
+        user.put("Name",name);
 
         path = "Android/"+firebaseAuth.getCurrentUser().getUid()+"/register/";
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
@@ -309,6 +311,5 @@ public class RegistrationActivity extends AppCompatActivity {
                 super.onPostExecute(aVoid);
             }
         }
-
 
 }
