@@ -1,3 +1,4 @@
+<p align="center"><img width=12.5% src="https://github.com/erictam96/CZAndroidAPP/blob/master/app/src/main/res/drawable/foodfoxnologo.png"></p>
 <p align="center" text> <b>Authentication form for Android </p>
 
 <p align="center">
