@@ -135,7 +135,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         uploadDB();
                         progressDialog.dismiss();
-                        sendUserData(inputName, inputPw);
+                        //sendUserData(inputName, inputPw);
                         Toast.makeText(RegistrationActivity.this,"You've been registered successfully.",Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegistrationActivity.this,MainActivity.class));
                     }
@@ -150,13 +150,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-    private void sendUserData(String phoneno, String password){
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference users = firebaseDatabase.getReference("users");
-        UserProfile user = new UserProfile(phoneno, password);
-        users.push().setValue(user);
-    }
+//    private void sendUserData(String phoneno, String password){
+//
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//        DatabaseReference users = firebaseDatabase.getReference("users");
+//        UserProfile user = new UserProfile(phoneno, password);
+//        users.push().setValue(user);
+//    }
 
     private boolean validateInput(String inName, String inPw, String inEmail){
 
