@@ -29,14 +29,11 @@
 ## Interface Preview 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ChmaraX/logregform-android/master/Preview/3.jpeg" width="210"/>
-  <img src="https://raw.githubusercontent.com/ChmaraX/logregform-android/master/Preview/4.jpeg" width="210"/>
-  <img src="https://raw.githubusercontent.com/ChmaraX/logregform-android/master/Preview/1.jpeg" width="210"/>
-  <img src="https://raw.githubusercontent.com/ChmaraX/logregform-android/master/Preview/2.jpeg" width="210"/>
-</p>
+  <img src="https://firebasestorage.googleapis.com/v0/b/czphishingapp.appspot.com/o/Screenshot_20200203-150729_CZLogin.jpg?alt=media&token=3114d491-98c8-47f3-bd9e-2391723a282c" width="210"/>
+  <img src="https://firebasestorage.googleapis.com/v0/b/czphishingapp.appspot.com/o/Screenshot_20200203-150740_CZLogin.jpg?alt=media&token=017e0983-6760-4037-bc15-fc4c1ef3e053" width="210"/>
+  <img src="https://firebasestorage.googleapis.com/v0/b/czphishingapp.appspot.com/o/Screenshot_20200203-150744_CZLogin.jpg?alt=media&token=6fc2a36f-6fd0-41a9-8915-8f12dcfc48b2" width="210"/>
 
-#### Splashscreen
- <img src="https://raw.githubusercontent.com/ChmaraX/logregform-android/master/Preview/splash.gif" width="210"/>
+
 
 ## Implementation
 
