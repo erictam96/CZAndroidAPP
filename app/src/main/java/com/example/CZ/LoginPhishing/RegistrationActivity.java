@@ -138,7 +138,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         //sendUserData(inputName, inputPw);
                         Toast.makeText(RegistrationActivity.this,"You've been registered successfully.",Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(RegistrationActivity.this,MainActivity.class); // Your list's Intent
-                        i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); // Adds the FLAG_ACTIVITY_NO_HISTORY flag
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Adds the FLAG_ACTIVITY_NO_HISTORY flag
                         startActivity(i);
                         //startActivity(new Intent(RegistrationActivity.this,MainActivity.class));
                     }
