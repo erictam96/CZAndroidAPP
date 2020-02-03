@@ -39,20 +39,3 @@
 
 #### google-services.json
 You need to set up your own [Firebase](https://firebase.google.com/) authenticator + database and download `google-services.json` file, then add it to `YourApp/app` folder:
-
-The dependencies are already set up.
-
-``` Java
-dependencies {
-
-...
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-    compile 'com.google.firebase:firebase-core:15.0.0'
-    compile 'com.google.firebase:firebase-auth:15.0.0'
-    compile 'com.google.firebase:firebase-database:15.0.0'
-
-}
-```
