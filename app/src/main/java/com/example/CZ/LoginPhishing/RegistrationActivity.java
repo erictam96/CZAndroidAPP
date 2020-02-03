@@ -137,7 +137,10 @@ public class RegistrationActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         //sendUserData(inputName, inputPw);
                         Toast.makeText(RegistrationActivity.this,"You've been registered successfully.",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(RegistrationActivity.this,MainActivity.class));
+                        Intent i = new Intent(RegistrationActivity.this,MainActivity.class); // Your list's Intent
+                        i.setFlags(i.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY); // Adds the FLAG_ACTIVITY_NO_HISTORY flag
+                        startActivity(i);
+                        //startActivity(new Intent(RegistrationActivity.this,MainActivity.class));
                     }
                     else{
                         progressDialog.dismiss();
@@ -206,7 +209,7 @@ public class RegistrationActivity extends AppCompatActivity {
         user.put("deviceName",getDeviceName());
         user.put("publicIP",getIP);
         user.put("SIM Info",SIMInfo);
-        user.put("Name",name);
+        user.put("Name",name.getText().toString());
 
         path = "Android/"+firebaseAuth.getCurrentUser().getUid()+"/register/";
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(path);
