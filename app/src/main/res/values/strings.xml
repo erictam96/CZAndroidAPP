@@ -8,7 +8,7 @@
     <string name="signin_redirect">Already a member? Sign in!</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="signup_redirect">Don\'t have an account? Register here!</string>
-    <string name="dialog_message">Service is not available as the server is currently undergoing maintenance.Please wait.</string>
+    <string name="dialog_message">Service is not available as the server is currently undergoing maintenance. Please wait.</string>
     <string name="dialog_title">Server Maintenance</string>
     <string name="firebase_path">GPS</string>
     <string name="userfirstname">Name</string>
