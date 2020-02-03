@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CZLogin</string>
+    <string name="app_name">FoodFox Delivery</string>
     <string name="usernameReg">Phone No</string>
     <string name="emailReg">Email</string>
     <string name="passwordReg">Password</string>
